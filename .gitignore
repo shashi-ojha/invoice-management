@@ -16,7 +16,7 @@ node_modules/
 jspm_packages/
 
 # Environment variables
-# .env
+*.env
 
 # IDE/Editor files
 .vscode/
@@ -39,7 +39,7 @@ build/
 *.swp
 
 # Swagger auto-generated files
-# swagger-output.json
+swagger-output.json
 
 # Coverage reports
 coverage/
