@@ -1,0 +1,1260 @@
+openapi: 3.0.1
+info:
+  title: My Node API
+  description: |
+    This is the API documentation for the **Node.js backend with PostgreSQL**. 
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: http://example.com/support
+    email: support@example.com
+servers:
+  - url: http://localhost:5000
+    description: Local Development Server
+
+tags:
+  - name: Areas
+    description: Endpoints related to area management
+  - name: Cities
+    description: Endpoints related to city management
+  - name: Clients
+    description: Endpoints related to client management
+  - name: Lift Types
+    description: Endpoints related to lift-types management
+  - name: Periods
+    description: Endpoints related to period management
+  - name: States
+    description: Endpoints related to state management
+
+paths:
+  /api/areas:
+    get:
+      summary: Get all areas
+      description: Retrieve a list of all active areas.
+      tags:
+        - Areas
+      responses:
+        '200':
+          description: List of areas retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Area'
+        '500':
+          description: Internal server error.
+    post:
+      summary: Create a new area
+      description: Add a new area to the database.
+      tags:
+        - Areas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewArea'
+      responses:
+        '201':
+          description: Area created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Area'
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+  /api/areas/{id}:
+    get:
+      summary: Get a area by ID
+      description: Retrieve details of a specific area by their ID.
+      tags:
+        - Areas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the area to retrieve.
+      responses:
+        '200':
+          description: Area retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Area'
+        '404':
+          description: Area not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a Area
+      description: Modify an existing area's details.
+      tags:
+        - Areas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the area to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArea'
+      responses:
+        '200':
+          description: Area updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Area'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Area not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a area
+      description: Soft delete a area by setting `is_active` to `false`.
+      tags:
+        - Areas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the area to delete.
+      responses:
+        '200':
+          description: Area deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Area'
+        '404':
+          description: Area not found.
+        '500':
+          description: Internal server error.
+
+  /api/cities:
+    get:
+      summary: Get all city
+      description: Retrieve a list of all active cities.
+      tags:
+        - Cities
+      responses:
+        '200':
+          description: List of cities retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/City'
+        '500':
+          description: Internal server error.
+    post:
+      summary: Create a new city
+      description: Add a new city to the database.
+      tags:
+        - Cities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCity'
+      responses:
+        '201':
+          description: City created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/City'
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+  /api/cities/{id}:
+    get:
+      summary: Get a city by ID
+      description: Retrieve details of a specific city by their ID.
+      tags:
+        - Cities
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the city to retrieve.
+      responses:
+        '200':
+          description: City retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/City'
+        '404':
+          description: City not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a city
+      description: Modify an existing city's details.
+      tags:
+        - Cities
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the city to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCity'
+      responses:
+        '200':
+          description: City updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/City'
+        '400':
+          description: Invalid input.
+        '404':
+          description: City not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a city
+      description: Soft delete a city by setting `is_active` to `false`.
+      tags:
+        - Cities
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the city to delete.
+      responses:
+        '200':
+          description: City deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/City'
+        '404':
+          description: City not found.
+        '500':
+          description: Internal server error.
+
+  /api/clients:
+    get:
+      summary: Get all clients
+      description: Retrieve a list of all active clients.
+      tags:
+        - Clients
+      responses:
+        '200':
+          description: List of clients retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Client'
+        '500':
+          description: Internal server error.
+    post:
+      summary: Create a new client
+      description: Add a new client to the database.
+      tags:
+        - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewClient'
+      responses:
+        '201':
+          description: Client created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Client'
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+  /api/clients/{id}:
+    get:
+      summary: Get a client by ID
+      description: Retrieve details of a specific client by their ID.
+      tags:
+        - Clients
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the client to retrieve.
+      responses:
+        '200':
+          description: Client retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Client'
+        '404':
+          description: Client not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a client
+      description: Modify an existing client's details.
+      tags:
+        - Clients
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the client to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClient'
+      responses:
+        '200':
+          description: Client updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Client'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Client not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a client
+      description: Soft delete a client by setting `is_active` to `false`.
+      tags:
+        - Clients
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the client to delete.
+      responses:
+        '200':
+          description: Client deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Client'
+        '404':
+          description: Client not found.
+        '500':
+          description: Internal server error.
+
+  /api/states:
+    get:
+      summary: Get all states
+      description: Retrieve all active states.
+      tags:
+        - States
+      responses:
+        '200':
+          description: A list of states.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: California
+                        is_active:
+                          type: boolean
+                          example: true
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new state
+      description: Add a new state to the database.
+      tags:
+        - States
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: California
+      responses:
+        '201':
+          description: State created successfully.
+        '500':
+          description: Internal server error
+  /api/states/{id}:
+    get:
+      summary: Get a state by ID
+      description: Retrieve a specific state by its ID.
+      tags:
+        - States
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: State retrieved successfully.
+        '404':
+          description: State not found.
+        '500':
+          description: Internal server error
+    put:
+      summary: Update a state by ID
+      description: Modify an existing state's details.
+      tags:
+        - States
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: New York
+      responses:
+        '200':
+          description: State updated successfully.
+        '404':
+          description: State not found.
+        '500':
+          description: Internal server error
+    delete:
+      summary: Soft delete a state by ID
+      description: Mark a state as inactive.
+      tags:
+        - States
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: State deleted successfully.
+        '404':
+          description: State not found.
+        '500':
+          description: Internal server error
+
+  /api/periods:
+    get:
+      summary: Get all periods
+      description: Retrieve a list of all active periods.
+      tags:
+        - Periods
+      responses:
+        '200':
+          description: List of period retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Period'
+        '500':
+          description: Internal server error.
+
+    post:
+      summary: Create a new period
+      description: Add a new period to the database.
+      tags:
+        - Periods
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPeriod'
+      responses:
+        '201':
+          description: Period created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Period'
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+  /api/periods/{id}:
+    get:
+      summary: Get a period by ID
+      description: Retrieve details of a specific period by their ID.
+      tags:
+        - Periods
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the period to retrieve.
+      responses:
+        '200':
+          description: Period retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Period'
+        '404':
+          description: Period not found.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a period
+      description: Modify an existing period's details.
+      tags:
+        - Periods
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the period to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePeriod'
+      responses:
+        '200':
+          description: Period updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Period'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Period not found.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a period
+      description: Soft delete a period by setting `is_active` to `false`.
+      tags:
+        - Periods
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the period to delete.
+      responses:
+        '200':
+          description: Period deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Period'
+        '404':
+          description: Period not found.
+        '500':
+          description: Internal server error.
+
+  /api/lift-types:
+    get:
+      summary: Get all lift types
+      description: Retrieve a list of all active lift types.
+      tags:
+        - Lift Types
+      responses:
+        '200':
+          description: List of lift-types retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LiftType'
+        '500':
+          description: Internal server error.
+    post:
+      summary: Create a new lift type
+      description: Add a new lift type to the database.
+      tags:
+        - Lift Types
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewLiftType'
+      responses:
+        '201':
+          description: Lift types created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/LiftType'
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+  /api/lift-types/{id}:
+    get:
+      summary: Get a lift type by ID
+      description: Retrieve details of a specific lift type by their ID.
+      tags:
+        - Lift Types
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the lift type to retrieve.
+      responses:
+        '200':
+          description: Lift Type retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/LiftType'
+        '404':
+          description: LiftType not found.
+        '500':
+          description: Internal server error.
+    put:
+      summary: Update a lift type
+      description: Modify an existing lift-type's details.
+      tags:
+        - Lift Types
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the lift type to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLiftType'
+      responses:
+        '200':
+          description: Lift Type updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/LiftType'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Lift Type not found.
+        '500':
+          description: Internal server error.
+    delete:
+      summary: Delete a lift type
+      description: Soft delete a lift type by setting `is_active` to `false`.
+      tags:
+        - Lift Types
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: The ID of the lift type to delete.
+      responses:
+        '200':
+          description: Lift Type deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/LiftType'
+        '404':
+          description: Lift type not found.
+        '500':
+          description: Internal server error.
+
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        building_name:
+          type: string
+          example: "High Tower"
+        area_id:
+          type: integer
+          example: 101
+        address:
+          type: string
+          example: "123 Main Street"
+        city_id:
+          type: integer
+          example: 10
+        state_id:
+          type: integer
+          example: 5
+        chairperson_name:
+          type: string
+          example: "John Doe"
+        phonenumber:
+          type: string
+          example: "123456789"
+        email:
+          type: string
+          example: "example@example.com"
+        lift_type_id:
+          type: integer
+          example: 2
+        contract_period_id:
+          type: integer
+          example: 3
+        from_date:
+          type: string
+          format: date
+          example: "2024-01-01"
+        to_date:
+          type: string
+          format: date
+          example: "2024-12-31"
+        maintenance_charge:
+          type: number
+          format: double
+          example: 1500.50
+        status:
+          type: string
+          example: "Active"
+        is_active:
+          type: boolean
+          example: true
+        created_date:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_date:
+          type: string
+          format: date-time
+          example: "2024-01-10T12:00:00Z"
+
+    NewClient:
+      type: object
+      required:
+        - building_name
+        - area_id
+        - address
+        - city_id
+        - state_id
+        - phonenumber
+        - from_date
+        - to_date
+        - maintenance_charge
+        - status
+      properties:
+        building_name:
+          type: string
+          example: "High Tower"
+        area_id:
+          type: integer
+          example: 101
+        address:
+          type: string
+          example: "123 Main Street"
+        city_id:
+          type: integer
+          example: 10
+        state_id:
+          type: integer
+          example: 5
+        chairperson_name:
+          type: string
+          example: "John Doe"
+        phonenumber:
+          type: string
+          example: "123456789"
+        email:
+          type: string
+          example: "example@example.com"
+        lift_type_id:
+          type: integer
+          example: 2
+        contract_period_id:
+          type: integer
+          example: 3
+        from_date:
+          type: string
+          format: date
+          example: "2024-01-01"
+        to_date:
+          type: string
+          format: date
+          example: "2024-12-31"
+        maintenance_charge:
+          type: number
+          format: double
+          example: 1500.50
+        status:
+          type: string
+          example: "Active"
+
+    UpdateClient:
+      type: object
+      properties:
+        building_name:
+          type: string
+        area_id:
+          type: integer
+        address:
+          type: string
+        city_id:
+          type: integer
+        state_id:
+          type: integer
+        chairperson_name:
+          type: string
+        phonenumber:
+          type: string
+        email:
+          type: string
+        lift_type_id:
+          type: integer
+        contract_period_id:
+          type: integer
+        from_date:
+          type: string
+          format: date
+        to_date:
+          type: string
+          format: date
+        maintenance_charge:
+          type: number
+          format: double
+        status:
+          type: string
+
+    Period:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Annual Contract"
+        months:
+          type: integer
+          example: 12
+        is_active:
+          type: boolean
+          example: true
+        created_date:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_date:
+          type: string
+          format: date-time
+          example: "2024-01-10T12:00:00Z"
+
+    NewPeriod:
+      type: object
+      required:
+        - title
+        - months
+      properties:
+        title:
+          type: string
+          example: "G+4 Type"
+        months:
+          type: integer
+          example: 3
+
+    UpdatePeriod:
+      type: object
+      properties:
+        title:
+          type: string
+        months:
+          type: integer
+
+    LiftType:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Annual Contract"
+        price:
+          type: numeric
+          example: 1200.00
+        is_active:
+          type: boolean
+          example: true
+        created_date:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_date:
+          type: string
+          format: date-time
+          example: "2024-01-10T12:00:00Z"
+
+    NewLiftType:
+      type: object
+      required:
+        - title
+        - price
+      properties:
+        title:
+          type: string
+          example: "G+4 Type"
+        price:
+          type: numeric
+          example: 12000.00
+
+    UpdateLiftType:
+      type: object
+      properties:
+        title:
+          type: string
+        price:
+          type: numeric
+
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Noida"
+        state_id:
+          type: integer
+          example: 2
+        is_active:
+          type: boolean
+          example: true
+        created_date:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_date:
+          type: string
+          format: date-time
+          example: "2024-01-10T12:00:00Z"
+
+    NewCity:
+      type: object
+      required:
+        - name
+        - state_id
+      properties:
+        name:
+          type: string
+          example: "Noida"
+        state_id:
+          type: integer
+          example: 2
+
+    UpdateCity:
+      type: object
+      properties:
+        name:
+          type: string
+        state_id:
+          type: integer
+
+    Area:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        area_name:
+          type: string
+          example: "Noida"
+        city_id:
+          type: integer
+          example: 1
+        state_id:
+          type: integer
+          example: 2
+        is_active:
+          type: boolean
+          example: true
+        created_date:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:00:00Z"
+        updated_date:
+          type: string
+          format: date-time
+          example: "2024-01-10T12:00:00Z"
+
+    NewArea:
+      type: object
+      required:
+        - area_name
+        - city_id
+        - state_id
+      properties:
+        area_name:
+          type: string
+          example: "Noida"
+        city_id:
+          type: integer
+          example: 1
+        state_id:
+          type: integer
+          example: 2
+
+    UpdateArea:
+      type: object
+      properties:
+        area_name:
+          type: string
+        city_id:
+          type: integer
+        state_id:
+          type: integer
