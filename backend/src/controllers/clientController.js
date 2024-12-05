@@ -1,4 +1,5 @@
 const clientService = require('../services/clientService');
+const messaging = require('../utils/messaging');
 
 const getAllClients = async (req, res) => {
   try {
@@ -25,6 +26,7 @@ const getClientById = async (req, res) => {
 const createClient = async (req, res) => {
   try {
     const client = await clientService.addClient(req.body);
+    await messaging.sendWelcomeMessage(client);
     res.status(201).json({ success: true, data: client });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -38,6 +40,7 @@ const updateClient = async (req, res) => {
     if (!client) {
       return res.status(404).json({ success: false, message: 'Client not found' });
     }
+    await messaging.sendWelcomeMessage(client);
     res.status(200).json({ success: true, data: client });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

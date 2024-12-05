@@ -16,13 +16,13 @@ const createClient = async (data) => {
   const query = `
     INSERT INTO clients (
       building_name, area_id, address, city_id, state_id, chairperson_name, 
-      lift_type_id, contract_period_id, from_date, to_date, maintenance_charge, status
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;
+      lift_type_id, contract_period_id, from_date, to_date, maintenance_charge, status, phonenumber, email
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *;
   `;
   const values = [
     data.building_name, data.area_id, data.address, data.city_id, data.state_id,
     data.chairperson_name, data.lift_type_id, data.contract_period_id,
-    data.from_date, data.to_date, data.maintenance_charge, data.status
+    data.from_date, data.to_date, data.maintenance_charge, data.status, data.phonenumber, data.email
   ];
   const result = await pool.query(query, values);
   return result.rows[0];
